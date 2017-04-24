@@ -21,7 +21,6 @@ parser.addArgument(
 
 // read args
 const args = parser.parseArgs();
-console.dir(args);
 
 // keywords argument is mandatory
 if( !args.key_words) {
