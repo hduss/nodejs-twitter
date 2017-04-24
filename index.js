@@ -45,7 +45,6 @@ const access_token_secret= config.default.api.twitter.access_token_secret;
 
 
 
-
 const t = new Twitter({
 
     consumer_key: consumer_key,

@@ -3,44 +3,72 @@ const mongoose = require('mongoose');
 
 const config = require('config-yml');
 
-// ouverture de la connection
-mongoose.connect(`mongodb://${config.default.db.ip_address}:${config.default.db.port}/${config.default.db.dbname}`, function(err) {
-   if (err) { throw err; }
-});
 
-// création du schéma
-const dbSchema = new mongoose.Schema({
-   id: String,
-   mail: String,
-});
+class Mongoose {
 
-// modem
-const dbModel = mongoose.model('emails', dbSchema);
+	constructor() {
 
-// On crée une instance du Model
-const newEmail = new dbModel({ mail: 'test@yaha.fr'});
+	thids.dbSchema = new mongoose.Schema({
+	 id: String,
+	 mail: String,
+	});
 
-// On le sauvegarde dans MongoDB !
-newEmail.save(function (err) {
+	// modem
+	this.dbModel = mongoose.model('emails', dbSchema);
 
-   if (err) { throw err; }
+	// On crée une instance du Model
+	this.newEmail = new dbModel({ mail: 'test@yaha.fr'});
 
-   console.log('email ajouté avec succès !');
+	}
 
 
+	initDb() {
 
-});
+	mongoose.connect(`mongodb://${config.default.db.ip_address}:${config.default.db.port}/${config.default.db.dbname}`, function(err) {
+	   if (err) { throw err; }
+	});
+	
+
+	}
+
+	saveDb(newEmail) {
+
+		
+
+		this.newEmail.save(err => {
+
+			if (err) { throw err; }
+
+   			console.log('email ajouté avec succès !');
 
 
-// on fait une recherche sur model dbModel
-dbModel.find(null, (err, mail) => {
+		});
 
-  if (err) { throw err; 
+	}
 
-  }
+	findDb(dbModel) {
 
-  console.log(mail);
+		this.dbModel.find(null, (err, mail) => {
 
-});
+  			if (err) { throw err ; }
+
+
+
+  		console.log(mail);
+
+		});
+	}
+
+
+
+
+}
+
+
+
+module.exports = Mongoose;
+
+
+
 
 
