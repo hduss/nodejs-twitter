@@ -5,9 +5,9 @@ default:
             consumer_secret: CONSUMER_SECRET 
             access_token_key: ACCESS_TOKEN_KEY 
             access_token_secret: ACCESS_TOKEN_SECRET 
-        db: 
-            ip_address: IP_ADDRESS 
-            port: PORT 
-            dbname: DBNAME 
+    db:
+        ip_address: IP_ADDRESS
+        port: PORT
+        dbname: DBNAME
 
 
