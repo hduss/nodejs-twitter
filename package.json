@@ -18,8 +18,7 @@
   "homepage": "https://github.com/hduss/nodejs-twitter#readme",
   "dependencies": {
     "argparse": "^1.0.9",
-    "fs": "0.0.1-security",
-    "js-yaml": "^3.8.3",
-    "twitter": "^1.7.0"
+    "config-yml": "^0.7.0",
+    "node-tweet-stream": "^2.0.1"
   }
 }
