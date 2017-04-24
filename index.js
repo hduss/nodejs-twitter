@@ -1,9 +1,9 @@
 // import
-var config = require('config-yml');
-var ArgumentParser   = require('argparse').ArgumentParser;
+const config = require('config-yml');
+const ArgumentParser   = require('argparse').ArgumentParser;
 
 // init arguments parser
-var parser = new ArgumentParser({
+const parser = new ArgumentParser({
     version: '0.0.1',
     addHelp:true,
     description: 'Argparse example'
@@ -18,20 +18,19 @@ parser.addArgument(
 );
 
 // read args
-var args = parser.parseArgs();
-console.dir(args);
+const args = parser.parseArgs();
 
 // keywords argument is mandatory
-if( !args.key_words) {
+const( !args.key_words) {
     console.warn('No keywords provided, please use -k + keyword1,keywords2');
     process.exit(0);
 }
 
 // read keywords
-var keywords = args.key_words.split(',');
+const keywords = args.key_words.split(',');
 
 // read configuration data
-var consumer_key = config.default.api.twitter.consumer_key;
-var consumer_secret= config.default.api.twitter.consumer_secret;
-var access_token_key= config.default.api.twitter.access_token_key;
-var access_token_secret= config.default.api.twitter.access_token_secret;
+const consumer_key = config.default.api.twitter.consumer_key;
+const consumer_secret= config.default.api.twitter.consumer_secret;
+const access_token_key= config.default.api.twitter.access_token_key;
+const access_token_secret= config.default.api.twitter.access_token_secret;
