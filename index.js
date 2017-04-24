@@ -61,7 +61,7 @@ t.on('tweet', (tweet) => {
 
 
 // regex pour recuperer les adresses mail
-  const re = new RegExp(/[^ ]+@[^ ]+.[^ ]+/);
+  const re = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
 
     if (tweet.user.description) {
