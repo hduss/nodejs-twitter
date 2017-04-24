@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-twitter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hduss/nodejs-twitter.git"
+  },
+  "author": "theo, laetitia, typhanie, gabriel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hduss/nodejs-twitter/issues"
+  },
+  "homepage": "https://github.com/hduss/nodejs-twitter#readme",
+  "dependencies": {
+    "argparse": "^1.0.9",
+    "fs": "0.0.1-security",
+    "js-yaml": "^3.8.3",
+    "twitter": "^1.7.0"
+  }
+}
