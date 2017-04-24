@@ -2,7 +2,6 @@
 const config = require('config-yml');
 const ArgumentParser   = require('argparse').ArgumentParser;
 const Twitter = require('node-tweet-stream');
-const fs = require('fs');
 
 // init arguments parser
 const parser = new ArgumentParser({
@@ -21,7 +20,6 @@ parser.addArgument(
 
 // read args
 const args = parser.parseArgs();
-console.dir(args);
 
 // keywords argument is mandatory
 if( !args.key_words) {
@@ -38,16 +36,8 @@ const consumer_secret= config.default.api.twitter.consumer_secret;
 const access_token_key= config.default.api.twitter.access_token_key;
 const access_token_secret= config.default.api.twitter.access_token_secret;
 
-
-
-
-//---------------------recup Données----------------------------+
-
-
-
-
+// init twitter stream
 const t = new Twitter({
-
     consumer_key: consumer_key,
     consumer_secret: consumer_secret,
     token: access_token_key,
@@ -55,42 +45,32 @@ const t = new Twitter({
   });
 
 
-t.on('tweet', (tweet) => {
-
-  //console.log(tweet);
-
-
 // regex pour recuperer les adresses mail
-  const re = new RegExp(/[a-zA-Z 0-9]+@[a-zA-Z 09]+.[a-zA-Z 09]+/);
+const re = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
+// on receiving tweet
+t.on('tweet', tweet => {
 
-    if (tweet.user.description) {
+    if(tweet.user.description) {
 
-        console.log(tweet.id);
-
-// on rentre les resultats de la recherche regex dans un tableau
+        // on rentre les resultats de la recherche regex dans un tableau
         const arrMatches = tweet.user.description.match(re);
+        console.log(tweet.id +' => ' + arrMatches);
 
         if (arrMatches) {
-
-            console.log(arrMatches);
+            //console.log(arrMatches);
         }
 
     }
-
-
-
 });
 
-
-
+// on receiving error
 t.on('error', (err) => {
-
-  console.log('Oh no');
-
+    console.log('Error');
+    console.log(err);
 });
 
-
+// starts looking for tweets
 keywords.map(word => t.track(word));
 
 
