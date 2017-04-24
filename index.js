@@ -48,10 +48,10 @@ const access_token_secret= config.default.api.twitter.access_token_secret;
 
 const t = new Twitter({
 
-    consumer_key: 'eGCunHb3MgjLiqJ32vPyjzqDy',
-    consumer_secret: 's0xd6egFQDdE5jLURyBnoFHybDzxJKbZtbEXtk8Jey2JjSSleq',
-    token: '798784794150588416-jfqoFhOAYXrJglKZmJYPY3dhhYHPhmF',
-    token_secret: 'FGnxrqqDcMPukWMOEiSFNnpTK7ZHsdmXaq2F7UqCvjbfP'
+    consumer_key: consumer_key,
+    consumer_secret: consumer_secret,
+    token: access_token_key,
+    token_secret: access_token_secret
   });
 
 
@@ -59,6 +59,8 @@ t.on('tweet', (tweet) => {
 
   //console.log(tweet);
 
+
+// regex pour recuperer les adresses mail
   const re = new RegExp(/[a-zA-Z 0-9]+@[a-zA-Z 09]+.[a-zA-Z 09]+/);
 
 
@@ -66,7 +68,7 @@ t.on('tweet', (tweet) => {
 
         console.log(tweet.id);
 
-
+// on rentre les resultats de la recherche regex dans un tableau
         const arrMatches = tweet.user.description.match(re);
 
         if (arrMatches) {
