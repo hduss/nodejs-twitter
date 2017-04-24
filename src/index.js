@@ -4,6 +4,10 @@ const ArgumentParser   = require('argparse').ArgumentParser;
 
 const Twitter = require('./class/twitter.class');
 
+
+//load Mongoose class
+const Mongoose = require('./Mongoose');
+
 // init arguments parser
 const parser = new ArgumentParser({
     version: '0.0.1',
@@ -40,8 +44,18 @@ const access_token_secret= config.default.api.twitter.access_token_secret;
 // init twitter
 const t = new Twitter(consumer_key, consumer_secret, access_token_key, access_token_secret);
 
+
+
+const database = new Mongoose();
+
+
+
+
+
+
 // regex pour recuperer les adresses mail
 const re = new RegExp(/(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})/gi);
+
 
 // on receiving tweet
 t.setTweetCallback( tweet => {
@@ -53,10 +67,22 @@ t.setTweetCallback( tweet => {
         console.log(tweet.id +' => ' + arrMatches);
 
         if (arrMatches) {
-            //save(arrMatches);
+            save(arrMatches);
         }
     }
+
 });
+
+// on receiving error
+t.on('error', (err) => {
+    console.log('Error');
+    console.log(err);
+});
+
+
+
+database.initDb();
+
 
 // starts looking for tweets
 keywords.map(word => t.startTrack(word));
