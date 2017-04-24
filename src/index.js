@@ -1,9 +1,8 @@
 // import
 const config = require('config-yml');
 const ArgumentParser   = require('argparse').ArgumentParser;
-const save = require('./db.js');
 
-const Twitter = require('./src/class/twitter.class');
+const Twitter = require('./class/twitter.class');
 
 // init arguments parser
 const parser = new ArgumentParser({
@@ -42,7 +41,6 @@ const access_token_secret= config.default.api.twitter.access_token_secret;
 // init twitter
 const t = new Twitter(consumer_key, consumer_secret, access_token_key, access_token_secret);
 
-
 // regex pour recuperer les adresses mail
 const re = new RegExp(/(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})/gi);
 
@@ -56,7 +54,7 @@ t.setTweetCallback( tweet => {
         console.log(tweet.id +' => ' + arrMatches);
 
         if (arrMatches) {
-            save(arrMatches);
+            //save(arrMatches);
         }
     }
 });
