@@ -2,6 +2,7 @@
 const config = require('config-yml');
 const ArgumentParser   = require('argparse').ArgumentParser;
 const Twitter = require('node-tweet-stream');
+const save = require('./db.js');
 
 // init arguments parser
 const parser = new ArgumentParser({
@@ -45,9 +46,8 @@ const t = new Twitter({
     token_secret: access_token_secret
   });
 
-
 // regex pour recuperer les adresses mail
-const re = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+const re = new RegExp(/(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})/gi);
 
 // on receiving tweet
 t.on('tweet', tweet => {
@@ -59,10 +59,10 @@ t.on('tweet', tweet => {
         console.log(tweet.id +' => ' + arrMatches);
 
         if (arrMatches) {
-            //console.log(arrMatches);
+            save(arrMatches);
         }
-
     }
+
 });
 
 // on receiving error
