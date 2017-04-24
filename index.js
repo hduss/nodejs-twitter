@@ -2,7 +2,7 @@
 const config = require('config-yml');
 const ArgumentParser   = require('argparse').ArgumentParser;
 const Twitter = require('node-tweet-stream');
-const fs = require('fs');
+const save = require('./db.js');
 
 
 //load Mongoose class
@@ -25,7 +25,6 @@ parser.addArgument(
 
 // read args
 const args = parser.parseArgs();
-console.dir(args);
 
 // keywords argument is mandatory
 if( !args.key_words) {
@@ -45,12 +44,10 @@ const access_token_secret= config.default.api.twitter.access_token_secret;
 
 
 
+
 //---------------------recup Données----------------------------+
 
-
-
 const t = new Twitter({
-
     consumer_key: consumer_key,
     consumer_secret: consumer_secret,
     token: access_token_key,
@@ -58,45 +55,45 @@ const t = new Twitter({
   });
 
 
+
 const database = new Mongoose();
 
 
-t.on('tweet', (tweet) => {
 
-  //console.log(tweet);
+
 
 
 // regex pour recuperer les adresses mail
-  const re = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+const re = new RegExp(/(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})/gi);
 
 
-    if (tweet.user.description) {
+// on receiving tweet
+t.on('tweet', tweet => {
 
-        console.log(tweet.id);
+    if(tweet.user.description) {
 
-// on rentre les resultats de la recherche regex dans un tableau
+        // on rentre les resultats de la recherche regex dans un tableau
         const arrMatches = tweet.user.description.match(re);
+        console.log(tweet.id +' => ' + arrMatches);
 
         if (arrMatches) {
-
-            console.log(arrMatches);
+            save(arrMatches);
         }
-
     }
 
-
-
 });
-
 
 t.on('error', (err) => {
-
-  console.log('Oh no');
-
+    console.log('Error');
+    console.log(err);
 });
+
 
 
 database.initDb();
+
+
+// starts looking for tweets
 
 keywords.map(word => t.track(word));
 

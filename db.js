@@ -1,4 +1,5 @@
 
+
 const mongoose = require('mongoose');
 
 const config = require('config-yml');
@@ -69,7 +70,6 @@ class Mongoose {
 
 
 module.exports = Mongoose;
-
 
 
 
