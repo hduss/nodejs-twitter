@@ -1,34 +1,38 @@
 // import
-var Twitter = require('node-tweet-stream');
-var yaml = require('config-yml');
-var fs   = require('fs');
+var config = require('config-yml');
+var ArgumentParser   = require('argparse').ArgumentParser;
 
-// configuration file
-var configPath = '/config.test.yml';
+// init arguments parser
+var parser = new ArgumentParser({
+    version: '0.0.1',
+    addHelp:true,
+    description: 'Argparse example'
+});
 
-// Get document, or throw exception on error
-try {
-    var doc = yaml.safeLoad(fs.readFileSync(configPath, 'utf8'));
+// add parameter "keywords"
+parser.addArgument(
+    [ '-k', '--key-words' ],
+    {
+        help: 'tweeter key words'
+    }
+);
 
-    console.log(doc);
+// read args
+var args = parser.parseArgs();
+console.dir(args);
 
-} catch (e) {
-
-    console.log(e);
-
+// keywords argument is mandatory
+if( !args.key_words) {
+    console.warn('No keywords provided, please use -k + keyword1,keywords2');
+    process.exit(0);
 }
 
+// read keywords
+var keywords = args.key_words.split(',');
 
+// read configuration data
+var consumer_key = config.default.api.twitter.consumer_key;
+var consumer_secret= config.default.api.twitter.consumer_secret;
+var access_token_key= config.default.api.twitter.access_token_key;
+var access_token_secret= config.default.api.twitter.access_token_secret;
 
-t = new Twitter({
-    consumer_key: '',
-    consumer_secret: '',
-    token: '',
-    token_secret: ''
-  });
-
-t.on('tweet', (tweet) => {
-
-  console.log('tweet received', tweet);
-
-});
