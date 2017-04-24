@@ -1,8 +1,9 @@
 // import
 const config = require('config-yml');
 const ArgumentParser   = require('argparse').ArgumentParser;
-const Twitter = require('node-tweet-stream');
 const save = require('./db.js');
+
+const Twitter = require('./src/class/twitter.class');
 
 // init arguments parser
 const parser = new ArgumentParser({
@@ -37,19 +38,15 @@ const consumer_secret= config.default.api.twitter.consumer_secret;
 const access_token_key= config.default.api.twitter.access_token_key;
 const access_token_secret= config.default.api.twitter.access_token_secret;
 
-// init twitter stream
-const t = new Twitter({
-    consumer_key: consumer_key,
-    consumer_secret: consumer_secret,
-    token: access_token_key,
-    token_secret: access_token_secret
-  });
+// init twitter
+const t = new Twitter(consumer_key, consumer_secret, access_token_key, access_token_secret);
+
 
 // regex pour recuperer les adresses mail
 const re = new RegExp(/(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})/gi);
 
 // on receiving tweet
-t.on('tweet', tweet => {
+t.setTweetCallback( tweet => {
 
     if(tweet.user.description) {
 
@@ -61,17 +58,10 @@ t.on('tweet', tweet => {
             save(arrMatches);
         }
     }
-
-});
-
-// on receiving error
-t.on('error', (err) => {
-    console.log('Error');
-    console.log(err);
 });
 
 // starts looking for tweets
-keywords.map(word => t.track(word));
+keywords.map(word => t.startTrack(word));
 
 
 
