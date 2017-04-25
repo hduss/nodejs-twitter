@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./index.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,9 @@
   "homepage": "https://github.com/hduss/nodejs-twitter#readme",
   "dependencies": {
     "argparse": "^1.0.9",
-    "config-yml": "^0.7.0",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.6",
     "node-tweet-stream": "^2.0.1",
     "yamljs": "^0.2.10"
   }
