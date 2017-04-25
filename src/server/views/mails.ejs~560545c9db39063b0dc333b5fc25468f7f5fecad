@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>mails nodeJS</title>
+	<meta charset="utf8"/>
+</head>
+<body>
+
+	<h1> Liste des mails : </h1>
+
+	<p> <% mails %> </p>
+
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 const Mongoose = require('../../class/Mongoose');
 
 class MailController {
@@ -20,5 +21,3 @@ class MailController {
     }
 
 }
-
-module.exports = MailController;

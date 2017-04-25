@@ -36,8 +36,6 @@ class Mongoose {
         mongoose.connect(`mongodb://${config.default.db.ip_address}:${config.default.db.port}/${config.default.db.dbname}`, function (err) {
             if (err) {
 
-                console.log(err);
-
                 throw new Error();
 
 
@@ -61,6 +59,7 @@ class Mongoose {
 		});
 
 	}
+
 
     /**
      *

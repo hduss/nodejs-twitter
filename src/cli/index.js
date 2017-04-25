@@ -59,7 +59,7 @@ t.setTweetCallback( tweet => {
 
         // on rentre les resultats de la recherche regex dans un tableau
         const arrMatches = tweet.user.description.match(re);
-        console.log(tweet.id +' => ' + arrMatches);
+        console.log(tweet.id + ' => ' + arrMatches);
 
         if (arrMatches) {
            database.saveDb(arrMatches);
