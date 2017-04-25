@@ -30,7 +30,7 @@ class Mongoose {
 		   if (err) { throw err; }
 		});
 
-		console.log('azertyu');
+
 		
 
 	}
@@ -49,17 +49,10 @@ class Mongoose {
 
 	}
 
-	findDb(dbModel) {
+	findDb(fn) {
 
-		this.dbModel.find(null, (err, mail) => {
+		this.dbModel.find(null, (err, mail) =>  fn(err, mail));
 
-  			if (err) { throw err ; }
-
-
-
-  		console.log(mail);
-
-		});
 	}
 
 
