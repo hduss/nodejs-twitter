@@ -4,12 +4,16 @@ class MailController {
 
     index(req, res) {
 
-        const mongoose = new Mongoose();
-        mongoose.initDb();
+    	const mongoose = Mongoose.getInstance();
 
-        const mails = mongoose.findDb( (err, mail) => {
+    	mongoose.initDb();
+
+
+        const mail = mongoose.findDb( (err, mail) => {
 
             res.render('mails.ejs', { mail: mail });
+
+            mongoose.close();
 
         });
 

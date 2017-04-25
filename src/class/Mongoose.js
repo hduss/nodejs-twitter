@@ -6,7 +6,6 @@ const YAML = require('yamljs');
 
 // class mongoose
 class Mongoose {
-
     /**
      * constructor
      */
@@ -15,18 +14,14 @@ class Mongoose {
         // load config
         this._config = YAML.load('config.yml');
 
-		this.dbSchema = new mongoose.Schema({
+        this.dbSchema = new mongoose.Schema({
 
-		 id: String,
-		 mail: String,
+        id: String,
+        mail: String,
 
-		});
+        });
 
-		// modem
-		this.dbModel = mongoose.model('emails', this.dbSchema);
-
-		// On crée une instance du Model
-		this.newEmail = new this.dbModel({ mail: 'test@yaha.fr'});
+        this.dbModel = mongoose.model('emails', this.dbSchema);
 
 	}
 
@@ -40,7 +35,12 @@ class Mongoose {
 
         mongoose.connect(`mongodb://${config.default.db.ip_address}:${config.default.db.port}/${config.default.db.dbname}`, function (err) {
             if (err) {
+
+                console.log(err);
+
                 throw new Error();
+
+
             }
 
         });
@@ -51,6 +51,9 @@ class Mongoose {
      * @param newEmail String
      */
 	saveDb(newEmail) {
+
+        // On crée une instance du Model
+        this.newEmail = new this.dbModel({ mail: newEmail});
 
 		this.newEmail.save(err => {
 			if (err) { throw err; }
@@ -65,8 +68,29 @@ class Mongoose {
      */
 	findDb(fn) {
 
+
+
 		this.dbModel.find(null, (err, mail) => fn(err,mail));
 	}
+
+
+    close() {
+
+        mongoose.connection.close();
+    }
+
+
+    static getInstance() {
+
+        if (!this.instance) {
+
+             this.instance = new Mongoose();
+
+        }
+
+        return this.instance;
+    }
+
 
 }
 

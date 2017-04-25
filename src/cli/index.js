@@ -6,6 +6,8 @@ const Twitter = require('../class/twitter.class');
 //load Mongoose class
 const Mongoose = require('../class/Mongoose');
 
+
+
 // init arguments parser
 const parser = new ArgumentParser({
     version: '0.0.1',
@@ -60,14 +62,17 @@ t.setTweetCallback( tweet => {
         console.log(tweet.id +' => ' + arrMatches);
 
         if (arrMatches) {
-            save(arrMatches);
+           database.saveDb(arrMatches);
         }
     }
 
 });
 
 // init db connection
-database.initDb();
+database.initDb( () => {
+
+    
+});
 
 // starts looking for tweets
 keywords.map(word => t.startTrack(word));
