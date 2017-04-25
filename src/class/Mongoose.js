@@ -67,8 +67,6 @@ class Mongoose {
      */
 	findDb(fn) {
 
-
-
 		this.dbModel.find(null, (err, mail) => fn(err,mail));
 	}
 
