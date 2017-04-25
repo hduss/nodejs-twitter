@@ -18,8 +18,3 @@ server.addRoute('/mails', (req, res) => {
 // start server
 server.start();
 
-<<<<<<< 3f2a61a30752fbc0ba3b14af53709eca17b3755e
-
-
-=======
->>>>>>> set server

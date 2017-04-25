@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const YAML = require('yamljs');
 
@@ -35,14 +36,14 @@ class Mongoose {
      * @param fn function
      * @returns {Promise}
      */
-	initDb() {
+	initDb(fn) {
         const config = this._config;
 
         mongoose.connect(`mongodb://${config.default.db.ip_address}:${config.default.db.port}/${config.default.db.dbname}`, function (err) {
             if (err) {
                 throw new Error();
             }
-
+            fn();
         });
     }
 
