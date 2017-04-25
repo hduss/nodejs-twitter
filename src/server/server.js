@@ -11,7 +11,7 @@ class Server {
     }
 
     /**
-     * set variable express
+     * set express variable
      * @param variable string
      * @param middleware function
      */
