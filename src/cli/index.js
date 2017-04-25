@@ -1,5 +1,5 @@
 // import
-const config = require('config-yml');
+const YAML = require('yamljs');
 const ArgumentParser   = require('argparse').ArgumentParser;
 const Twitter = require('../class/twitter.class');
 
@@ -29,6 +29,8 @@ if( !args.key_words) {
     console.warn('No keywords provided, please use -k + keyword1,keywords2');
     process.exit(0);
 }
+
+const config = YAML.load('config.yml');
 
 // read keywords
 const keywords = args.key_words.split(',');

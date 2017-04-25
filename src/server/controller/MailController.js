@@ -9,7 +9,8 @@ class MailController {
 
         const mails = mongoose.findDb( (err, mail) => {
 
-            res.render('mails.ejs', {mails: mails});
+            res.render('mails.ejs', { mail: mail });
+
         });
 
     }

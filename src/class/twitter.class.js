@@ -1,5 +1,4 @@
 const TwitterStream = require('node-tweet-stream');
-const config = require('config-yml');
 
 // twitter api class
 class Twitter {
