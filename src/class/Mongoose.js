@@ -10,25 +10,29 @@ class Mongoose {
 
     /**
      * constructor
+     * @Param config object
+     * @Param config.default object
+     * @Param config.default.db object
+     * @param config.default.db.ip_address ip
+     * @Param config.default.db.port integer
+     * @Param config.default.db.dbname string
      */
-	constructor() {
+	constructor(config) {
 
-        // load config
-        this._config = YAML.load('config.yml');
+	    // save config
+        this._config = config;
 
+        // init schema
 		this.dbSchema = new mongoose.Schema({
-
-		 id: String,
-		 mail: String,
-
+		    id: String,
+		    mail: String,
 		});
 
-		// modem
+		// model
 		this.dbModel = mongoose.model('emails', this.dbSchema);
 
-		// On crée une instance du Model
+		// create model instance
 		this.newEmail = new this.dbModel({ mail: 'test@yaha.fr'});
-
 	}
 
     /**
@@ -36,14 +40,14 @@ class Mongoose {
      * @param fn function
      * @returns {Promise}
      */
-	initDb() {
+	initDb(fn) {
         const config = this._config;
 
         mongoose.connect(`mongodb://${config.default.db.ip_address}:${config.default.db.port}/${config.default.db.dbname}`, function (err) {
             if (err) {
                 throw new Error();
             }
-
+            fn();
         });
     }
 

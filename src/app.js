@@ -1,5 +1,4 @@
 const Server = require('./server/server');
-const Mongoose = require('./class/Mongoose');
 const path = require('path');
 const MailController = require('./server/controller/MailController');
 
