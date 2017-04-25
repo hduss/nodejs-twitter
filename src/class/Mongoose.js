@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const YAML = require('yamljs');
 
@@ -7,32 +6,23 @@ const YAML = require('yamljs');
 
 // class mongoose
 class Mongoose {
-
     /**
      * constructor
-     * @Param config object
-     * @Param config.default object
-     * @Param config.default.db object
-     * @param config.default.db.ip_address ip
-     * @Param config.default.db.port integer
-     * @Param config.default.db.dbname string
      */
-	constructor(config) {
+	constructor() {
 
-	    // save config
-        this._config = config;
+        // load config
+        this._config = YAML.load('config.yml');
 
-        // init schema
-		this.dbSchema = new mongoose.Schema({
-		    id: String,
-		    mail: String,
-		});
+        this.dbSchema = new mongoose.Schema({
 
-		// model
-		this.dbModel = mongoose.model('emails', this.dbSchema);
+        id: String,
+        mail: String,
 
-		// create model instance
-		this.newEmail = new this.dbModel({ mail: 'test@yaha.fr'});
+        });
+
+        this.dbModel = mongoose.model('emails', this.dbSchema);
+
 	}
 
     /**
@@ -40,14 +30,17 @@ class Mongoose {
      * @param fn function
      * @returns {Promise}
      */
-	initDb(fn) {
+	initDb() {
         const config = this._config;
 
         mongoose.connect(`mongodb://${config.default.db.ip_address}:${config.default.db.port}/${config.default.db.dbname}`, function (err) {
             if (err) {
+
                 throw new Error();
+
+
             }
-            fn();
+
         });
     }
 
@@ -57,6 +50,9 @@ class Mongoose {
      */
 	saveDb(newEmail) {
 
+        // On crée une instance du Model
+        this.newEmail = new this.dbModel({ mail: newEmail});
+
 		this.newEmail.save(err => {
 			if (err) { throw err; }
    			console.log('email ajouté avec succès !');
@@ -64,14 +60,36 @@ class Mongoose {
 
 	}
 
+
     /**
      *
      * @param fn function
      */
 	findDb(fn) {
 
+
+
 		this.dbModel.find(null, (err, mail) => fn(err,mail));
 	}
+
+
+    close() {
+
+        mongoose.connection.close();
+    }
+
+
+    static getInstance() {
+
+        if (!this.instance) {
+
+             this.instance = new Mongoose();
+
+        }
+
+        return this.instance;
+    }
+
 
 }
 

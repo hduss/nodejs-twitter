@@ -1,10 +1,12 @@
 // import
-const config = require('config-yml');
+const YAML = require('yamljs');
 const ArgumentParser   = require('argparse').ArgumentParser;
 const Twitter = require('../class/twitter.class');
 
 //load Mongoose class
 const Mongoose = require('../class/Mongoose');
+
+
 
 // init arguments parser
 const parser = new ArgumentParser({
@@ -29,6 +31,8 @@ if( !args.key_words) {
     console.warn('No keywords provided, please use -k + keyword1,keywords2');
     process.exit(0);
 }
+
+const config = YAML.load('config.yml');
 
 // read keywords
 const keywords = args.key_words.split(',');
@@ -55,17 +59,20 @@ t.setTweetCallback( tweet => {
 
         // on rentre les resultats de la recherche regex dans un tableau
         const arrMatches = tweet.user.description.match(re);
-        console.log(tweet.id +' => ' + arrMatches);
+        console.log(tweet.id + ' => ' + arrMatches);
 
         if (arrMatches) {
-            save(arrMatches);
+           database.saveDb(arrMatches);
         }
     }
 
 });
 
 // init db connection
-database.initDb();
+database.initDb( () => {
+
+    
+});
 
 // starts looking for tweets
 keywords.map(word => t.startTrack(word));

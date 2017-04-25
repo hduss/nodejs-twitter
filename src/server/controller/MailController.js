@@ -1,25 +1,23 @@
-const YAML = require('yamljs');
+
 const Mongoose = require('../../class/Mongoose');
 
 class MailController {
 
-    static index(req, res) {
+    index(req, res) {
 
-        // load config
-        const config = YAML.load('config.yml');
+    	const mongoose = Mongoose.getInstance();
 
-        // start instance
-        const mongoose = new Mongoose(config);
+    	mongoose.initDb();
 
-        // init db then search mails
-        mongoose.initDb( () => {
 
-            const mails = mongoose.findDb( (err, mail) => {
-                res.render('mails.ejs', {mails: mail});
-            });
+        const mail = mongoose.findDb( (err, mail) => {
+
+            res.render('mails.ejs', { mail: mail });
+
+            mongoose.close();
 
         });
-    }
-}
 
-module.exports = MailController;
+    }
+
+}
