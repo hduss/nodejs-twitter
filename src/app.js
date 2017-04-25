@@ -12,7 +12,6 @@ const mongoose = Mongoose.getInstance();
 
 
 
-mongoose.initSchema();
 
 
 // set view directory

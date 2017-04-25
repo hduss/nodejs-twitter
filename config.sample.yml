@@ -9,5 +9,3 @@ default:
         ip_address: IP_ADDRESS
         port: PORT
         dbname: DBNAME
-
-
