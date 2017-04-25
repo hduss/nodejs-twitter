@@ -6,8 +6,6 @@ const Twitter = require('../class/twitter.class');
 //load Mongoose class
 const Mongoose = require('../class/Mongoose');
 
-
-
 // init arguments parser
 const parser = new ArgumentParser({
     version: '0.0.1',
@@ -32,6 +30,7 @@ if( !args.key_words) {
     process.exit(0);
 }
 
+// load config
 const config = YAML.load('config.yml');
 
 // read keywords
@@ -71,8 +70,7 @@ t.setTweetCallback( tweet => {
 // init db connection
 database.initDb( () => {
 
-    
+    // start tracking
+    keywords.map(word => t.startTrack(word));
 });
 
-// starts looking for tweets
-keywords.map(word => t.startTrack(word));

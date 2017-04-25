@@ -33,7 +33,7 @@ class Server {
      * @param port integer
      */
     start(port = 3000) {
-	    this._app.listen(port, () => console.log('listening on port ' + port));
+	    return this._app.listen(port, () => console.log('listening on port ' + port));
     }
 }
 
