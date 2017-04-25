@@ -1,18 +1,22 @@
 const Server = require('./server/server');
 const Mongoose = require('./class/Mongoose');
-
-// create mongoose instance
-mongoose = new Mongoose();
+const path = require('path');
+const MailController = require('./server/controller/MailController');
 
 // create server instance
 server = new Server();
 
+// set view directory
+server.set('views', path.join(__dirname, '/server/views/'));
+
 // add route mail example
 server.addRoute('/mails', (req, res) => {
-   console.log('reached');
+   const Mail = new MailController();
+   Mail.index(req,res);
 });
 
-// start mongoose
-mongoose.initDb( () => server.start() );
+// start server
+server.start();
+
 
 
