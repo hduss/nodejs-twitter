@@ -11,6 +11,15 @@ class Server {
     }
 
     /**
+     * set variable express
+     * @param variable string
+     * @param middleware function
+     */
+    set(variable, middleware){
+        this._app.set(variable, middleware);
+    }
+
+    /**
      * add route
      * @param url String
      * @param controller controller class
