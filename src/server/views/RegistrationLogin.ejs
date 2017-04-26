@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User login</title>
+</head>
+<body>
+    <h1>Détail utilisateur</h1>
+    <p><%= msg %></p>
+    <form method="post">
+
+        <label for="pseudo">
+            Pseudo
+            <input type="text" name="pseudo" id="pseudo"/>
+        </label>
+
+        <br />
+        <label for="mdp">
+            mot de passe
+            <input type="password" name="mdp" id="mdp" />
+        </label>
+
+        <br />
+        <input type="submit" value="enregistrer" />
+    </form>
+</body>
+</html>

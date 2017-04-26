@@ -14,15 +14,20 @@ class Mongoose {
         // load config
         this._config = YAML.load('config.yml');
 
-        this.dbSchema = new mongoose.Schema({
-
-        id: String,
-        mail: String,
-
+        const mailSchema = new mongoose.Schema({
+            id: String,
+            mail: String,
         });
 
-        this.dbModel = mongoose.model('emails', this.dbSchema);
+        this.mailModel = mongoose.model('emails', mailSchema);
 
+        const userSchema = new mongoose.Schema({
+            id: String,
+            pseudo: String,
+            mdp: String,
+        });
+
+        this.userModel = mongoose.model('user', userSchema);
 	}
 
     /**
@@ -36,7 +41,7 @@ class Mongoose {
         mongoose.connect(`mongodb://${config.default.db.ip_address}:${config.default.db.port}/${config.default.db.dbname}`, function (err) {
             if (err) {
 
-                throw new Error();
+                throw new Error(err);
 
 
             }
@@ -48,18 +53,42 @@ class Mongoose {
      *
      * @param newEmail String
      */
-	saveDb(newEmail) {
+	saveDb(mail) {
 
         // On crée une instance du Model
-        this.newEmail = new this.dbModel({ mail: newEmail});
+        const newEmail = new this.mailModel({ mail: mail});
 
-		this.newEmail.save(err => {
+		newEmail.save(err => {
 			if (err) { throw err; }
    			console.log('email ajouté avec succès !');
 		});
 
 	}
 
+    /**
+     * save user
+     * @param pseudo string
+     * @param mdp string
+     */
+    saveUser(pseudo, mdp) {
+
+        // On crée une instance du Model
+        const newUser = new this.userModel({ pseudo: pseudo, mdp: mdp});
+
+        newUser.save(err => {
+            if (err) { throw err; }
+            console.log('user ajouté avec succès !');
+        });
+    }
+
+    /**
+     * get a user by pseudo
+     * @param pseudo string
+     * @param fn function
+     */
+    getUser(pseudo,fn){
+        this.userModel.findOne({'pseudo':pseudo}, (err, mail) => fn(err,mail));
+    }
 
     /**
      *
@@ -67,7 +96,7 @@ class Mongoose {
      */
 	findDb(fn) {
 
-		this.dbModel.find(null, (err, mail) => fn(err,mail));
+		this.mailModel.find(null, (err, mail) => fn(err,mail));
 	}
 
 

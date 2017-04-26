@@ -1,9 +1,18 @@
-
 const Mongoose = require('../../class/Mongoose');
 
 class MailController {
 
-    static index(req, res) {
+    constructor( app) {
+        this._app = app;
+    }
+
+    index(req, res) {
+
+        // session lock
+        if(!req.session.login || req.session.login == 0) {
+            res.send(403,"Vous devez d'abord vous connecter");
+            return;
+        }
 
     	const mongoose = Mongoose.getInstance();
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http');
 
 // class server
 class Server {
@@ -8,6 +9,8 @@ class Server {
      */
 	constructor(){
 	    this._app = express();
+	    this._server = http.createServer( this._app);
+	    this._controllers= [];
     }
 
     /**
@@ -20,12 +23,29 @@ class Server {
     }
 
     /**
-     * add route
-     * @param url String
-     * @param controller controller class
+     * use middleware on app
+     * @param middleware middleware function
      */
-    addRoute(url, controller) {
-	    this._app.get(url, controller);
+    use(middleware){
+        this._app.use(middleware);
+    }
+
+    /**
+     * add route with method get
+     * @param url String
+     * @param controller controller method
+     */
+    get(url, controllerAction) {
+	    this._app.get(url, controllerAction);
+    }
+
+    /**
+     * add route with method post
+     * @param url String
+     * @param controller controller method
+     */
+    post(url, controllerAction) {
+        this._app.post(url, controllerAction);
     }
 
     /**
@@ -33,7 +53,23 @@ class Server {
      * @param port integer
      */
     start(port = 3000) {
-	    return this._app.listen(port, () => console.log('listening on port ' + port));
+	    return this._server.listen(port, () => console.log('listening on port ' + port));
+    }
+
+    /**
+     * getter
+     * @returns HttpServer
+     */
+    getHttpServer(){
+        return this._server;
+    }
+
+    /**
+     * getter
+     * @returns Express app
+     */
+    getApp(){
+        return this._app;
     }
 }
 
